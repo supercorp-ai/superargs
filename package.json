@@ -1,0 +1,38 @@
+{
+  "name": "superarg",
+  "version": "1.0.0",
+  "description": "Set up MCP servers during runtime.",
+  "repository": "github:supercorp-ai/superarg",
+  "keywords": [
+    "mcp",
+    "stdio",
+    "sse",
+    "env",
+    "arguments",
+    "arg",
+    "args"
+  ],
+  "type": "module",
+  "bin": {
+    "superarg": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "latest",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/express": "^4.17.16",
+    "@types/node": "^20.5.9",
+    "@types/yargs": "^17.0.33",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.7",
+    "typescript": "^5.2.2"
+  }
+}
