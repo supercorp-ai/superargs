@@ -1,4 +1,4 @@
-![Superarg: Set up MCP servers during runtime](https://raw.githubusercontent.com/supercorp-ai/superarg/main/superarg.png)
+![Superarg: Set up MCP servers during runtime](https://github.com/user-attachments/assets/9212e666-f5d3-469c-9f31-fdb044a08b24)
 
 **Superarg** enables to set up MCP servers during runtime.
 Provide arguments to any **MCP server** during interaction with assistant instead of during initial setup.
@@ -44,7 +44,6 @@ All other MCP server functions will either return an empty list or an error mess
 
 ## Examples
 
-```bash
 Another example with GitHub MCP server:
 
 ```bash
