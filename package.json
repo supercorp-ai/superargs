@@ -5,12 +5,14 @@
   "repository": "github:supercorp-ai/superarg",
   "keywords": [
     "mcp",
+    "server",
     "stdio",
     "sse",
     "env",
     "arguments",
     "arg",
-    "args"
+    "args",
+    "runtime"
   ],
   "type": "module",
   "bin": {
