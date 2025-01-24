@@ -2,7 +2,10 @@
   "name": "superarg",
   "version": "1.0.0",
   "description": "Set up MCP servers during runtime.",
-  "repository": "github:supercorp-ai/superarg",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supercorp-ai/superarg.git"
+  },
   "keywords": [
     "mcp",
     "server",
@@ -16,7 +19,7 @@
   ],
   "type": "module",
   "bin": {
-    "superarg": "./dist/index.js"
+    "superarg": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
