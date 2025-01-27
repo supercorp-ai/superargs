@@ -1,7 +1,7 @@
 {
   "name": "superargs",
   "version": "1.0.0",
-  "description": "Set up MCP servers during runtime.",
+  "description": "Provide MCP server args during runtime.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/supercorp-ai/superargs.git"
