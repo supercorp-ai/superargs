@@ -1,6 +1,6 @@
 ![Superargs: Provide MCP server args during runtime](https://github.com/user-attachments/assets/9178633e-974b-4a0a-b6a1-3a2684a40458)
 
-**Superargs** enables to set up MCP servers during runtime.
+**Superargs** allows setting up MCP server args during runtime.
 Provide arguments to any **MCP server** during interaction with assistant instead of during initial setup.
 Whether it’s authentication tokens, environment variables, or other CLI arguments, Superargs makes it easy to provide it during runtime.
 
