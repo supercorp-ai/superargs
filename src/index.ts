@@ -26,8 +26,6 @@ import {
   ListRootsRequest,
   PingRequestSchema,
   PingRequest,
-  // InitializeRequestSchema,
-  // InitializeRequest,
   CompleteRequestSchema,
   CompleteRequest,
   SetLevelRequestSchema,
@@ -51,7 +49,6 @@ type Method = ListToolsRequest['method'] |
   ListRootsRequest['method'] |
   ListResourceTemplatesRequest['method'] |
   PingRequest['method'] |
-  // InitializeRequest['method'] |
   CompleteRequest['method'] |
   SetLevelRequest['method'] |
   SubscribeRequest['method'] |
@@ -63,19 +60,19 @@ type ForwardedRequest = {
   fallbackRequesHandler?: (request: any) => any
 }
 
-const VARIABLES_REGEX = /{{(.*?)}}/g
+const ARGS_REGEX = /{{(.*?)}}/g
 
-const findVariables = (command: string): string[] => {
+const findArgs = (command: string): string[] => {
   const matches = new Set<string>()
   let match
-  while ((match = VARIABLES_REGEX.exec(command)) !== null) {
+  while ((match = ARGS_REGEX.exec(command)) !== null) {
     matches.add(match[1].trim())
   }
   return Array.from(matches)
 }
 
-const replaceVariables = (command: string, values: Record<string, string>): string => {
-  return command.replace(VARIABLES_REGEX, (_, name: string) => {
+const replaceArgs = (command: string, values: Record<string, string>): string => {
+  return command.replace(ARGS_REGEX, (_, name: string) => {
     const key = name.trim()
     return key in values ? values[key] : `{{${key}}}`
   })
@@ -88,10 +85,10 @@ async function main() {
       demandOption: true,
       description: 'Shell command that runs an MCP server over stdio, e.g. "ENV=foo npx -y server-github {{myToken}}"'
     })
-    .option('update-variables-tool-name', {
+    .option('update-args-tool-name', {
       type: 'string',
       default: 'authorize',
-      description: 'Name of the tool used to update variables and restart stdio (default: "authorize")'
+      description: 'Name of the tool used to update args and restart stdio (default: "authorize")'
     })
     .help()
     .parseSync()
@@ -99,13 +96,13 @@ async function main() {
   console.error('[superargs] Starting...')
   console.error('[superargs] Superargs is supported by Supercorp - https://supercorp.ai')
   console.error(`[superargs]  - stdio: ${argv.stdio}`)
-  console.error(`[superargs]  - updateVariablesToolName: ${argv.updateVariablesToolName}`)
+  console.error(`[superargs]  - updateArgsToolName: ${argv.updateArgsToolName}`)
 
   const originalCommand = argv.stdio.trim()
-  const updateVariablesToolName = argv.updateVariablesToolName.trim()
+  const updateArgsToolName = argv.updateArgsToolName.trim()
 
-  const variables = findVariables(originalCommand)
-  console.error(`[superargs] Found variables: ${JSON.stringify(variables)}`)
+  const args = findArgs(originalCommand)
+  console.error(`[superargs] Found args: ${JSON.stringify(args)}`)
 
   const parentServer = new Server(
     {
@@ -129,12 +126,12 @@ async function main() {
   const pendingRequests = new Map<number, {resolve: (val:any)=>void, reject: (err:Error)=>void}>()
 
   let currentValues: Record<string, string> = {}
-  let variablesUpdated = false
+  let argsUpdated = false
 
-	const spawnChild = () => {
+  const spawnChild = () => {
     killChild()
 
-    const finalCmd = replaceVariables(originalCommand, currentValues)
+    const finalCmd = replaceArgs(originalCommand, currentValues)
     console.error(`[superargs] Spawning child process:\n  ${finalCmd}`)
 
     child = spawn(finalCmd, { shell: true })
@@ -149,7 +146,6 @@ async function main() {
       pendingRequests.clear()
     })
 
-    // Handle child's JSON-RPC on stdout
     let buffer = ''
     child.stdout.on('data', (chunk: Buffer) => {
       buffer += chunk.toString('utf8')
@@ -173,14 +169,13 @@ async function main() {
     })
   }
 
-	const killChild = () => {
+  const killChild = () => {
     if (!child) return
 
     console.error('[superargs] Killing existing child...')
     child.kill('SIGTERM')
     child = null
 
-    // Fail any pending requests
     for (const { reject } of pendingRequests.values()) {
       reject(new Error('Child killed'))
     }
@@ -231,21 +226,21 @@ async function main() {
   }
 
   const broadcastChildUpdates = async () => {
-    variablesUpdated = true
+    argsUpdated = true
     parentServer.sendToolListChanged()
     parentServer.sendResourceListChanged()
     parentServer.sendPromptListChanged()
   }
 
-  const updateVariablesTool: Tool = {
-    name: updateVariablesToolName,
-    description: 'Updates variables (tokens, etc.).',
+  const updateArgsTool: Tool = {
+    name: updateArgsToolName,
+    description: 'Updates args (tokens, etc.).',
     inputSchema: {
       type: 'object',
-      properties: variables.reduce((acc, v) => {
+      properties: args.reduce((acc, v) => {
         acc[v] = {
           type: 'string',
-          description: `Value for variable "{{${v}}}"`,
+          description: `Value for arg "{{${v}}}"`,
         }
         return acc
       }, {} as Record<string, any>),
@@ -259,12 +254,12 @@ async function main() {
       const resp = await callChild('tools/list', {})
       const childTools = resp.tools ?? []
       return {
-        tools: [...childTools, updateVariablesTool],
+        tools: [...childTools, updateArgsTool],
       } as ListToolsResult
     } catch (err) {
-      console.error('[superargs] Could not list child tools, fallback to [updateVariablesTool]:', err)
+      console.error('[superargs] Could not list child tools, fallback to [updateArgsTool]:', err)
       return {
-        tools: [updateVariablesTool],
+        tools: [updateArgsTool],
       } as ListToolsResult
     }
   })
@@ -272,7 +267,7 @@ async function main() {
   parentServer.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params
 
-    if (name === updateVariablesToolName) {
+    if (name === updateArgsToolName) {
       if (args && typeof args === 'object') {
         for (const [k, v] of Object.entries(args)) {
           if (typeof v === 'string') {
@@ -307,10 +302,6 @@ async function main() {
       schema: PingRequestSchema,
       fallbackRequesHandler: () => ({}),
     },
-    // {
-    //   method: 'initialize',
-    //   schema: InitializeRequestSchema,
-    // },
     {
       method: 'completion/complete',
       schema: CompleteRequestSchema,
@@ -372,7 +363,7 @@ async function main() {
       } catch (err) {
         console.error(`[superargs] Could not forward request [${method}]:`, err)
 
-        if (!variablesUpdated && fallbackRequesHandler) {
+        if (!argsUpdated && fallbackRequesHandler) {
           return fallbackRequesHandler(request)
         } else {
           throw err

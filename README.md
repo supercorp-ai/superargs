@@ -14,33 +14,33 @@ Run Superargs via `npx`:
 npx -y superargs --stdio "npx -y @modelcontextprotocol/server-postgres {{databaseUrl}}"
 ```
 
-- **`--stdio`**: Shell command that runs a stdio MCP server with variables to be replaced during runtime in the form `{{variableName}}`.
-- **`--update-variables-tool-name`**: (Optional) Custom name for the tool used to update/restart variables. Defaults to `authorize`.
+- **`--stdio`**: Shell command that runs a stdio MCP server with args to be replaced during runtime in the form `{{argName}}`.
+- **`--update-args-tool-name`**: (Optional) Custom name for the tool used to update/restart args. Defaults to `authorize`.
 
-### Variables
+### Args
 
-Variables in the `--stdio` command are denoted by `{{variableName}}`. For example:
+Args in the `--stdio` command are denoted by `{{argName}}`. For example:
 
 ```bash
 npx -y superargs --stdio "GITHUB_PERSONAL_ACCESS_TOKEN={{githubToken}} npx -y @modelcontextprotocol/server-github"
 ```
 
 In this command:
-- `{{githubToken}}` is a variable that can be set at runtime using the `authorize` tool (or a custom tool name if specified).
+- `{{githubToken}}` is an arg that can be set at runtime using the `authorize` tool (or a custom tool name if specified).
 
 ## Once Started
 
-- **Initial state**: At the start, the MCP server will not have any variables set.
+- **Initial state**: At the start, the MCP server will not have any args set.
 
-- If underlying MCP stdio server can start without variables, it will try to start without them to provide tools lists and other MCP server functions.
-If it can work without variables, the only difference will be that it will have an additional **authorize** tool to update variables.
+- If underlying MCP stdio server can start without args, it will try to start without them to provide tools lists and other MCP server functions.
+If it can work without args, the only difference will be that it will have an additional **authorize** tool to update args.
 
-- If the server requires variables to start, it will not start until the variables are set and it will only have the **authorize** tool.
+- If the server requires args to start, it will not start until the args are set and it will only have the **authorize** tool.
 All other MCP server functions will either return an empty list or an error message.
 
-- **When authorize is used**: The server will restart with the new variables and all MCP server functions will be available.
+- **When authorize is used**: The server will restart with the new args and all MCP server functions will be available.
 
-- **Tool to Update Variables**: By default, named `authorize`, allows updating variables and restarting the child MCP server.
+- **Tool to Update Args**: By default, named `authorize`, allows updating args and restarting the child MCP server.
 
 ## Examples
 
@@ -72,29 +72,29 @@ npx -y superargs --stdio "uv mcp-server-sqlite --db-path={{dbPath}}"
 
 ## How It Works
 
-**Superargs** acts as a middleware wrapper around your MCP server, enabling dynamic injection of variables at runtime. It forwards all MCP requests (tools, prompts, resources, messages, roots, etc.) to the underlying child server and introduces an additional tool to manage these variables.
+**Superargs** acts as a middleware wrapper around your MCP server, enabling dynamic injection of args at runtime. It forwards all MCP requests (tools, prompts, resources, messages, roots, etc.) to the underlying child server and introduces an additional tool to manage these args.
 
 ### Key Features
 
-- **Dynamic Variable Injection**: Replace placeholders in your MCP server command with actual values during runtime.
-- **Customizable Tool Name**: Rename the variable update tool via `--update-variables-tool-name` to suit your workflow.
+- **Dynamic Arg Injection**: Replace placeholders in your MCP server command with actual values during runtime.
+- **Customizable Tool Name**: Rename the arg update tool via `--update-args-tool-name` to suit your workflow.
 - **Comprehensive MCP Support**: Forwards all MCP requests to the child server, including tools, prompts, resources, messages, and roots.
-- **Change Notifications**: Sends notifications like `sendToolListChanged`, `sendPromptListChanged`, and `sendResourceUpdated` when variables are updated, ensuring connected clients are aware of changes.
+- **Change Notifications**: Sends notifications like `sendToolListChanged`, `sendPromptListChanged`, and `sendResourceUpdated` when args are updated, ensuring connected clients are aware of changes.
 
 ### Main Use Case
 
 **Superargs** empowers users to set up and configure MCP servers dynamically during their interactions with AI assistants.
-Instead of requiring administrators to pre-configure servers with necessary variables and credentials, users can provide these details on-the-fly through conversation, enhancing flexibility and reducing setup overhead.
+Instead of requiring administrators to pre-configure servers with necessary args and credentials, users can provide these details on-the-fly through conversation, enhancing flexibility and reducing setup overhead.
 
-### Providing sensitive variables securely
+### Providing sensitive args securely
 
-Variables are passed to the child MCP server in the command specified. Nothing is stored.
+Args are passed to the child MCP server in the command specified. Nothing is stored.
 
-If you don’t want the LLM to ever see these variables, do a direct call to the MCP server through server client (so its not the assistant who is calling it, but your code directly).
+If you don’t want the LLM to ever see these args, do a direct call to the MCP server through server client (so it’s not the assistant who is calling it, but your code directly).
 
 ## Why MCP?
 
-[Model Context Protocol](https://spec.modelcontextprotocol.io/) standardizes how AI tools exchange data. If your MCP server requires dynamic variables such as authentication tokens or configuration paths, **Superargs** allows you to provide them at runtime without altering the server's code. This enables flexible deployments, remote access, and easier debugging.
+[Model Context Protocol](https://spec.modelcontextprotocol.io/) standardizes how AI tools exchange data. If your MCP server requires dynamic args such as authentication tokens or configuration paths, **Superargs** allows you to provide them at runtime without altering the server's code. This enables flexible deployments, remote access, and easier debugging.
 
 ## Contributing
 
@@ -107,3 +107,4 @@ Contributions are welcome! Whether you have ideas for new features, improvements
 ---
 
 **Superargs** is supported by [Supercorp](https://supercorp.ai) and [Superinterface](https://superinterface.ai).
+`
