@@ -1,4 +1,4 @@
-![Superargs: Set up MCP servers during runtime](https://github.com/user-attachments/assets/9212e666-f5d3-469c-9f31-fdb044a08b24)
+![Superargs: Provide MCP server args during runtime](https://github.com/user-attachments/assets/9178633e-974b-4a0a-b6a1-3a2684a40458)
 
 **Superargs** enables to set up MCP servers during runtime.
 Provide arguments to any **MCP server** during interaction with assistant instead of during initial setup.
