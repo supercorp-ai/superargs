@@ -1,17 +1,17 @@
-![Superarg: Set up MCP servers during runtime](https://github.com/user-attachments/assets/9212e666-f5d3-469c-9f31-fdb044a08b24)
+![Superargs: Set up MCP servers during runtime](https://github.com/user-attachments/assets/9212e666-f5d3-469c-9f31-fdb044a08b24)
 
-**Superarg** enables to set up MCP servers during runtime.
+**Superargs** enables to set up MCP servers during runtime.
 Provide arguments to any **MCP server** during interaction with assistant instead of during initial setup.
-Whether it’s authentication tokens, environment variables, or other CLI arguments, Superarg makes it easy to provide it during runtime.
+Whether it’s authentication tokens, environment variables, or other CLI arguments, Superargs makes it easy to provide it during runtime.
 
 Supported by [superinterface.ai](https://superinterface.ai) and [supercorp.ai](https://supercorp.ai).
 
 ## Installation & Usage
 
-Run Superarg via `npx`:
+Run Superargs via `npx`:
 
 ```bash
-npx -y superarg --stdio "npx -y @modelcontextprotocol/server-postgres {{databaseUrl}}"
+npx -y superargs --stdio "npx -y @modelcontextprotocol/server-postgres {{databaseUrl}}"
 ```
 
 - **`--stdio`**: Shell command that runs a stdio MCP server with variables to be replaced during runtime in the form `{{variableName}}`.
@@ -22,7 +22,7 @@ npx -y superarg --stdio "npx -y @modelcontextprotocol/server-postgres {{database
 Variables in the `--stdio` command are denoted by `{{variableName}}`. For example:
 
 ```bash
-npx -y superarg --stdio "GITHUB_PERSONAL_ACCESS_TOKEN={{githubToken}} npx -y @modelcontextprotocol/server-github"
+npx -y superargs --stdio "GITHUB_PERSONAL_ACCESS_TOKEN={{githubToken}} npx -y @modelcontextprotocol/server-github"
 ```
 
 In this command:
@@ -47,32 +47,32 @@ All other MCP server functions will either return an empty list or an error mess
 Another example with GitHub MCP server:
 
 ```bash
-npx -y superarg --stdio "GITHUB_PERSONAL_ACCESS_TOKEN={{githubToken}} npx -y @modelcontextprotocol/server-github"
+npx -y superargs --stdio "GITHUB_PERSONAL_ACCESS_TOKEN={{githubToken}} npx -y @modelcontextprotocol/server-github"
 ```
 
 And with SQLite MCP server:
 
 ```bash
-npx -y superarg --stdio "uv mcp-server-sqlite --db-path={{dbPath}}"
+npx -y superargs --stdio "uv mcp-server-sqlite --db-path={{dbPath}}"
 ```
 
 ### Example with MCP Inspector
 
-1. **Run MCP Inspector with Superarg**:
+1. **Run MCP Inspector with Superargs**:
 
     ```bash
-    npx @modelcontextprotocol/inspector npx -y superarg --stdio "npx -y @modelcontextprotocol/server-postgres {{databaseUrl}}"
+    npx @modelcontextprotocol/inspector npx -y superargs --stdio "npx -y @modelcontextprotocol/server-postgres {{databaseUrl}}"
     ```
 
-    This command starts Superarg and connects it to MCP Inspector, enabling you to manage your PostgreSQL MCP server through the inspector interface.
+    This command starts Superargs and connects it to MCP Inspector, enabling you to manage your PostgreSQL MCP server through the inspector interface.
 
 2. **Manage MCP Server**:
 
-    With MCP Inspector, you can list tools, run prompts, access resources, or perform other MCP actions through Superarg.
+    With MCP Inspector, you can list tools, run prompts, access resources, or perform other MCP actions through Superargs.
 
 ## How It Works
 
-**Superarg** acts as a middleware wrapper around your MCP server, enabling dynamic injection of variables at runtime. It forwards all MCP requests (tools, prompts, resources, messages, roots, etc.) to the underlying child server and introduces an additional tool to manage these variables.
+**Superargs** acts as a middleware wrapper around your MCP server, enabling dynamic injection of variables at runtime. It forwards all MCP requests (tools, prompts, resources, messages, roots, etc.) to the underlying child server and introduces an additional tool to manage these variables.
 
 ### Key Features
 
@@ -83,7 +83,7 @@ npx -y superarg --stdio "uv mcp-server-sqlite --db-path={{dbPath}}"
 
 ### Main Use Case
 
-Superarg empowers users to set up and configure MCP servers dynamically during their interactions with AI assistants.
+**Superargs** empowers users to set up and configure MCP servers dynamically during their interactions with AI assistants.
 Instead of requiring administrators to pre-configure servers with necessary variables and credentials, users can provide these details on-the-fly through conversation, enhancing flexibility and reducing setup overhead.
 
 ### Providing sensitive variables securely
@@ -94,11 +94,11 @@ If you don’t want the LLM to ever see these variables, do a direct call to the
 
 ## Why MCP?
 
-[Model Context Protocol](https://spec.modelcontextprotocol.io/) standardizes how AI tools exchange data. If your MCP server requires dynamic variables such as authentication tokens or configuration paths, **Superarg** allows you to provide them at runtime without altering the server's code. This enables flexible deployments, remote access, and easier debugging.
+[Model Context Protocol](https://spec.modelcontextprotocol.io/) standardizes how AI tools exchange data. If your MCP server requires dynamic variables such as authentication tokens or configuration paths, **Superargs** allows you to provide them at runtime without altering the server's code. This enables flexible deployments, remote access, and easier debugging.
 
 ## Contributing
 
-Contributions are welcome! Whether you have ideas for new features, improvements, or encounter any issues, please open an [issue](https://github.com/supercorp-ai/superarg/issues) or submit a [pull request](https://github.com/supercorp-ai/superarg/pulls).
+Contributions are welcome! Whether you have ideas for new features, improvements, or encounter any issues, please open an [issue](https://github.com/supercorp-ai/superargs/issues) or submit a [pull request](https://github.com/supercorp-ai/superarg/pulls).
 
 ## License
 
@@ -106,4 +106,4 @@ Contributions are welcome! Whether you have ideas for new features, improvements
 
 ---
 
-**Superarg** is supported by [Supercorp](https://supercorp.ai) and [Superinterface](https://superinterface.ai).
+**Superargs** is supported by [Supercorp](https://supercorp.ai) and [Superinterface](https://superinterface.ai).

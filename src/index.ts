@@ -96,21 +96,21 @@ async function main() {
     .help()
     .parseSync()
 
-  console.error('[superarg] Starting...')
-  console.error('[superarg] Superarg is supported by Supercorp - https://supercorp.ai')
-  console.error(`[superarg]  - stdio: ${argv.stdio}`)
-  console.error(`[superarg]  - updateVariablesToolName: ${argv.updateVariablesToolName}`)
+  console.error('[superargs] Starting...')
+  console.error('[superargs] Superargs is supported by Supercorp - https://supercorp.ai')
+  console.error(`[superargs]  - stdio: ${argv.stdio}`)
+  console.error(`[superargs]  - updateVariablesToolName: ${argv.updateVariablesToolName}`)
 
   const originalCommand = argv.stdio.trim()
   const updateVariablesToolName = argv.updateVariablesToolName.trim()
 
   const variables = findVariables(originalCommand)
-  console.error(`[superarg] Found variables: ${JSON.stringify(variables)}`)
+  console.error(`[superargs] Found variables: ${JSON.stringify(variables)}`)
 
   const parentServer = new Server(
     {
-      name: 'superarg',
-      version: '0.1.0',
+      name: 'superargs',
+      version: '1.0.0',
     },
     {
       capabilities: {
@@ -135,12 +135,12 @@ async function main() {
     killChild()
 
     const finalCmd = replaceVariables(originalCommand, currentValues)
-    console.error(`[superarg] Spawning child process:\n  ${finalCmd}`)
+    console.error(`[superargs] Spawning child process:\n  ${finalCmd}`)
 
     child = spawn(finalCmd, { shell: true })
 
     child.on('exit', (code, signal) => {
-      console.error(`[superarg] Child process exited with code=${code}, signal=${signal}`)
+      console.error(`[superargs] Child process exited with code=${code}, signal=${signal}`)
       child = null
 
       for (const { reject } of pendingRequests.values()) {
@@ -161,7 +161,7 @@ async function main() {
         try {
           msg = JSON.parse(line)
         } catch (err) {
-          console.error('[superarg] Child produced non-JSON line:', line)
+          console.error('[superargs] Child produced non-JSON line:', line)
           continue
         }
         handleChildMessage(msg)
@@ -169,14 +169,14 @@ async function main() {
     })
 
     child.stderr.on('data', (chunk: Buffer) => {
-      console.error('[superarg] [child stderr]', chunk.toString('utf8'))
+      console.error('[superargs] [child stderr]', chunk.toString('utf8'))
     })
   }
 
 	const killChild = () => {
     if (!child) return
 
-    console.error('[superarg] Killing existing child...')
+    console.error('[superargs] Killing existing child...')
     child.kill('SIGTERM')
     child = null
 
@@ -189,12 +189,12 @@ async function main() {
 
   const handleChildMessage = (msg: any) => {
     if (!msg || msg.jsonrpc !== '2.0') {
-      console.error('[superarg] Invalid JSON-RPC from child:', msg)
+      console.error('[superargs] Invalid JSON-RPC from child:', msg)
       return
     }
     const id = msg.id
     if (!id || !pendingRequests.has(id)) {
-      console.error('[superarg] Child responded with unknown id=', id)
+      console.error('[superargs] Child responded with unknown id=', id)
       return
     }
     const { resolve, reject } = pendingRequests.get(id)!
@@ -262,7 +262,7 @@ async function main() {
         tools: [...childTools, updateVariablesTool],
       } as ListToolsResult
     } catch (err) {
-      console.error('[superarg] Could not list child tools, fallback to [updateVariablesTool]:', err)
+      console.error('[superargs] Could not list child tools, fallback to [updateVariablesTool]:', err)
       return {
         tools: [updateVariablesTool],
       } as ListToolsResult
@@ -370,7 +370,7 @@ async function main() {
       try {
         result = await callChild(method, request.params)
       } catch (err) {
-        console.error(`[superarg] Could not forward request [${method}]:`, err)
+        console.error(`[superargs] Could not forward request [${method}]:`, err)
 
         if (!variablesUpdated && fallbackRequesHandler) {
           return fallbackRequesHandler(request)
@@ -386,10 +386,10 @@ async function main() {
   const parentTransport = new StdioServerTransport()
   await parentServer.connect(parentTransport)
 
-  console.error('[superarg] Ready. Waiting on stdio for requests.')
+  console.error('[superargs] Ready. Waiting on stdio for requests.')
 }
 
 main().catch((err) => {
-  console.error('[superarg] Fatal error:', err)
+  console.error('[superargs] Fatal error:', err)
   process.exit(1)
 })
