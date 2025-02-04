@@ -1,10 +1,10 @@
-![Superargs: Provide MCP server args during runtime](https://github.com/user-attachments/assets/9178633e-974b-4a0a-b6a1-3a2684a40458)
+![Superargs: Provide MCP server args during runtime](https://raw.githubusercontent.com/supercorp-ai/superargs/main/superargs.png)
 
 **Superargs** allows setting up MCP server args during runtime.
 Provide arguments to any **MCP server** during interaction with assistant instead of during initial setup.
 Whether it’s authentication tokens, environment variables, or other CLI arguments, Superargs makes it easy to provide it during runtime.
 
-Supported by [superinterface.ai](https://superinterface.ai) and [supercorp.ai](https://supercorp.ai).
+Supported by [superinterface.ai](https://superinterface.ai), [supermachine.ai](https://supermachine.ai) and [supercorp.ai](https://supercorp.ai).
 
 ## Installation & Usage
 
@@ -15,7 +15,7 @@ npx -y superargs --stdio "npx -y @modelcontextprotocol/server-postgres {{databas
 ```
 
 - **`--stdio`**: Shell command that runs a stdio MCP server with args to be replaced during runtime in the form `{{argName}}`.
-- **`--update-args-tool-name`**: (Optional) Custom name for the tool used to update/restart args. Defaults to `authorize`.
+- **`--update-args-tool-name`**: (Optional) Custom name for the tool used to update/restart args. Defaults to `update_args`.
 
 ### Args
 
@@ -26,21 +26,21 @@ npx -y superargs --stdio "GITHUB_PERSONAL_ACCESS_TOKEN={{githubToken}} npx -y @m
 ```
 
 In this command:
-- `{{githubToken}}` is an arg that can be set at runtime using the `authorize` tool (or a custom tool name if specified).
+- `{{githubToken}}` is an arg that can be set at runtime using the `update_args` tool (or a custom tool name if specified).
 
 ## Once Started
 
 - **Initial state**: At the start, the MCP server will not have any args set.
 
 - If underlying MCP stdio server can start without args, it will try to start without them to provide tools lists and other MCP server functions.
-If it can work without args, the only difference will be that it will have an additional **authorize** tool to update args.
+If it can work without args, the only difference will be that it will have an additional **update_args** tool to update args.
 
-- If the server requires args to start, it will not start until the args are set and it will only have the **authorize** tool.
+- If the server requires args to start, it will not start until the args are set and it will only have the **update_args** tool.
 All other MCP server functions will either return an empty list or an error message.
 
-- **When authorize is used**: The server will restart with the new args and all MCP server functions will be available.
+- **When update_args is used**: The server will restart with the new args and all MCP server functions will be available.
 
-- **Tool to Update Args**: By default, named `authorize`, allows updating args and restarting the child MCP server.
+- **Tool to Update Args**: By default, named `update_args`, allows updating args and restarting the child MCP server.
 
 ## Examples
 
@@ -106,5 +106,4 @@ Contributions are welcome! Whether you have ideas for new features, improvements
 
 ---
 
-**Superargs** is supported by [Supercorp](https://supercorp.ai) and [Superinterface](https://superinterface.ai).
-`
+**Superargs** is supported by [Superinterface](https://superinterface.ai), [Supermachine](https://supermachine.ai) and [Supercorp](https://supercorp.ai).

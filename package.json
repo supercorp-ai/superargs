@@ -1,6 +1,6 @@
 {
   "name": "superargs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Provide MCP server args during runtime.",
   "repository": {
     "type": "git",

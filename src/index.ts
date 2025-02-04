@@ -87,8 +87,8 @@ async function main() {
     })
     .option('update-args-tool-name', {
       type: 'string',
-      default: 'authorize',
-      description: 'Name of the tool used to update args and restart stdio (default: "authorize")'
+      default: 'update_args',
+      description: 'Name of the tool used to update args and restart stdio (default: "update_args")'
     })
     .help()
     .parseSync()
