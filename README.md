@@ -94,7 +94,7 @@ If you don’t want the LLM to ever see these args, do a direct call to the MCP 
 
 ## Why MCP?
 
-[Model Context Protocol](https://spec.modelcontextprotocol.io/) standardizes how AI tools exchange data. If your MCP server requires dynamic args such as authentication tokens or configuration paths, **Superargs** allows you to provide them at runtime without altering the server's code. This enables flexible deployments, remote access, and easier debugging.
+[Model Context Protocol](https://modelcontextprotocol.io/) standardizes how AI tools exchange data. If your MCP server requires dynamic args such as authentication tokens or configuration paths, **Superargs** allows you to provide them at runtime without altering the server's code. This enables flexible deployments, remote access, and easier debugging.
 
 ## Contributing
 
