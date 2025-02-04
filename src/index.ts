@@ -94,7 +94,7 @@ async function main() {
     .parseSync()
 
   console.error('[superargs] Starting...')
-  console.error('[superargs] Superargs is supported by Supercorp - https://supercorp.ai')
+  console.error('[superargs] Superargs is supported by Superinterface - https://superinterface.ai')
   console.error(`[superargs]  - stdio: ${argv.stdio}`)
   console.error(`[superargs]  - updateArgsToolName: ${argv.updateArgsToolName}`)
 
