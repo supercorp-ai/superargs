@@ -1,4 +1,4 @@
-![Superargs: Update MCP server args in the chat](https://raw.githubusercontent.com/supercorp-ai/superargs/main/superargs.png)
+![Superargs: Update MCP server args from the chat](https://raw.githubusercontent.com/supercorp-ai/superargs/main/superargs.png)
 
 **Superargs** allows setting up MCP server args during runtime.
 Provide arguments to any **MCP server** during interaction with assistant instead of during initial setup.
