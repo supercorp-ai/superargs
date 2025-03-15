@@ -1,7 +1,7 @@
 {
   "name": "superargs",
-  "version": "1.0.2",
-  "description": "Update MCP server args from the chat.",
+  "version": "1.0.3",
+  "description": "Update MCP server args during MCP server runtime.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/supercorp-ai/superargs.git"

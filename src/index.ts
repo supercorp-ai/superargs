@@ -136,6 +136,13 @@ async function main() {
 
     child = spawn(finalCmd, { shell: true })
 
+    const req = {
+      jsonrpc: '2.0',
+      method: 'notifications/initialized',
+    }
+
+    child.stdin.write(JSON.stringify(req) + '\n')
+
     child.on('exit', (code, signal) => {
       console.error(`[superargs] Child process exited with code=${code}, signal=${signal}`)
       child = null
